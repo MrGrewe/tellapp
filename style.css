@@ -101,4 +101,11 @@ button:hover {
     width: 90px;
     height: 90px;
   }
+}
+
+.erstes-bild {
+  display: block;
+  margin: 20px auto;
+  max-width: 200px;
+  border: 2px solid #333;
 } 

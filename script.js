@@ -1,8 +1,7 @@
 const form = document.getElementById('tellonym-form');
 const imagesDiv = document.getElementById('images');
 
-// HIER die URL zu deinem PHP-Backend eintragen:
-const PHP_ENDPOINT = 'https://mein-php-host.tld/tellonym-fetcher.php';
+const PHP_ENDPOINT = '/api/tellonym-fetcher';
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -38,6 +37,6 @@ form.addEventListener('submit', async (e) => {
       imagesDiv.appendChild(wrapper);
     });
   } catch (err) {
-    imagesDiv.innerHTML = `<div style="color:#e00;">${err.message || 'Unbekannter Fehler.'}</div>`;
+    imagesDiv.innerHTML = `<div style=\"color:#e00;\">${err.message || 'Unbekannter Fehler.'}</div>`;
   }
 }); 
