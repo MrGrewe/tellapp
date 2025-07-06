@@ -13,7 +13,10 @@ form.addEventListener('submit', async (e) => {
 
   try {
     const res = await fetch(`${PHP_ENDPOINT}?username=${encodeURIComponent(username)}`);
-    if (!res.ok) throw new Error('Fehler beim Laden der Daten.');
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error || 'Fehler beim Laden der Daten.');
+    }
     const data = await res.json();
     if (!data.images || !Array.isArray(data.images) || data.images.length === 0) {
       imagesDiv.innerHTML = '<div>Keine Profilbilder gefunden.</div>';
@@ -37,6 +40,6 @@ form.addEventListener('submit', async (e) => {
       imagesDiv.appendChild(wrapper);
     });
   } catch (err) {
-    imagesDiv.innerHTML = `<div style=\"color:#e00;\">${err.message || 'Unbekannter Fehler.'}</div>`;
+    imagesDiv.innerHTML = `<div style="color:#e00;">${err.message || 'Unbekannter Fehler.'}</div>`;
   }
 }); 

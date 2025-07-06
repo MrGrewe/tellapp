@@ -1,4 +1,8 @@
+// Falls fetch in deiner Node.js-Umgebung nicht global ist, importiere es:
+// import fetch from 'node-fetch';
+
 export default async function handler(req, res) {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
   const username = req.query.username;
   if (!username || !/^[a-zA-Z0-9_.-]{3,32}$/.test(username)) {
     res.status(400).json({ images: [], error: "Ungültiger Username." });
