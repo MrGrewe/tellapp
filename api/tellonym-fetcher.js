@@ -4,20 +4,24 @@
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   const username = req.query.username;
+  const url = `https://tellonym.me/${encodeURIComponent(username)}`;
+  console.log('Tellonym-Username:', username);
+  console.log('Lade Tellonym-Profil:', url);
+
   if (!username || !/^[a-zA-Z0-9_.-]{3,32}$/.test(username)) {
     res.status(400).json({ images: [], error: "Ungültiger Username." });
     return;
   }
 
-  const url = `https://tellonym.me/${encodeURIComponent(username)}`;
   try {
     const response = await fetch(url, {
       headers: {
         "User-Agent": "Mozilla/5.0"
       }
     });
+    console.log('HTTP Status:', response.status);
     if (!response.ok) {
-      res.status(404).json({ images: [], error: "Profil konnte nicht geladen werden." });
+      res.status(404).json({ images: [], error: `Profil konnte nicht geladen werden. HTTP Status: ${response.status}` });
       return;
     }
     const html = await response.text();
@@ -39,6 +43,7 @@ export default async function handler(req, res) {
     }
     res.status(200).json({ images });
   } catch (err) {
+    console.error('Fehler beim Laden:', err);
     res.status(500).json({ images: [], error: "Serverfehler: " + err.message });
   }
 } 
